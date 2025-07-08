@@ -1,7 +1,7 @@
 
 "use client";
-
 import GoogleIcon from "@mui/icons-material/Google";
+import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import {
@@ -37,48 +37,48 @@ const LoginPage = () => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-const handleLogin = async () => {
-  // e.preventDefault();
-  setIsLoading(true);
-  try {
-    const res = await postUserLogin({
-      email: form.email,
-      password: form.password,
-    });
+  const handleLogin = async () => {
+    // e.preventDefault();
+    setIsLoading(true);
+    try {
+      const res = await postUserLogin({
+        email: form.email,
+        password: form.password,
+      });
 
-    console.log(res.data);
-    console.log(res.data.force_password_change)
-    if (res?.data?.access_token) {
-      // ✅ Set cookies
-      setAuthCookies(res.data.access_token, res.data.refresh_token);
-      Cookies.set(ROLE_VALUE, res.data.role);
+      console.log(res.data);
+      console.log(res.data.force_password_change)
+      if (res?.data?.access_token) {
+        // ✅ Set cookies
+        setAuthCookies(res.data.access_token, res.data.refresh_token);
+        Cookies.set(ROLE_VALUE, res.data.role);
 
-      const savedRole = getUserRole();
+        const savedRole = getUserRole();
 
-      // ✅ Kiểm tra force_password_change
-      if (res.data.force_password_change === true) {
-        router.push("/change-password");
-        toast.info("Bạn đang sử dụng mật khẩu tạm thời. Vui lòng đổi mật khẩu.");
-        // router.push("/change-password");
-        return; // ⚠️ Không redirect tiếp phía dưới
-      }
+        // ✅ Kiểm tra force_password_change
+        if (res.data.force_password_change === true) {
+          router.push("/change-password");
+          toast.info("Bạn đang sử dụng mật khẩu tạm thời. Vui lòng đổi mật khẩu.");
+          // router.push("/change-password");
+          return; // ⚠️ Không redirect tiếp phía dưới
+        }
 
-      toast.success("Đăng nhập thành công!");
+        toast.success("Đăng nhập thành công!");
 
-      if (savedRole === "admin") {
-        router.push("/admin/dashboard");
+        if (savedRole === "admin") {
+          router.push("/admin/dashboard");
+        } else {
+          router.push("/");
+        }
       } else {
-        router.push("/");
+        toast.error(res.data?.detail || "Đăng nhập thất bại!");
       }
-    } else {
-      toast.error(res.data?.detail || "Đăng nhập thất bại!");
+    } catch (err: any) {
+      toast.error(err.response?.data?.detail || "Đăng nhập thất bại!");
+    } finally {
+      setIsLoading(false);
     }
-  } catch (err: any) {
-    toast.error(err.response?.data?.detail || "Đăng nhập thất bại!");
-  } finally {
-    setIsLoading(false);
-  }
-};
+  };
 
 
   return (
@@ -165,9 +165,8 @@ const handleLogin = async () => {
               <button
                 disabled={isloading}
                 onClick={handleLogin}
-                className={`w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-3 rounded transition duration-300 ${
-                  isloading ? "opacity-50 cursor-not-allowed" : ""
-                }`}
+                className={`w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-3 rounded transition duration-300 ${isloading ? "opacity-50 cursor-not-allowed" : ""
+                  }`}
               >
                 {isloading ? "Đang đăng nhập..." : "Đăng Nhập"}
               </button>
@@ -203,6 +202,22 @@ const handleLogin = async () => {
               >
                 Đăng ký ngay
               </Box>
+            </Typography>
+
+            <Typography
+              variant="body2"
+              align="center"
+              sx={{
+                mt: 2,
+                color: "primary.main",
+                cursor: "pointer",
+                transition: "all 0.3s ease",
+                '&:hover': { color: '#1F2251' }
+              }}
+              onClick={() => router.push("/user/home")}
+            >
+              <ArrowLeftIcon fontSize="small" sx={{ verticalAlign: "middle" }} />
+              Trang chủ
             </Typography>
           </Box>
         </Paper>

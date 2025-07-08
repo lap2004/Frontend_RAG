@@ -38,7 +38,7 @@ export const restTransport = () => {
   // --- Request Interceptor ---
   client.interceptors.request.use(
     (config) => {
-      config.headers["Access-Control-Allow-Origin"] = "*";
+      // config.headers["Access-Control-Allow-Origin"] = "*";
 
       const accessToken = Cookies.get("access_token");
       const refreshToken = Cookies.get("refresh_token");

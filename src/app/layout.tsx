@@ -1,28 +1,29 @@
 "use client";
-import EmotionProvider from '@/src/components/EmotionProvider';
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+
+import { Geist_Mono, Roboto } from "next/font/google";
 import "./globals.css";
+import { EmotionProvider } from "../emotion/provider";
 
-const geistSans = Geist({
-  subsets: ["latin"],
+const roboto = Roboto({
+  subsets: ["latin", "vietnamese"],
+  weight: ["400", "500", "700"],
   display: "swap",
-});
-
-const geistMono = Geist_Mono({
-  subsets: ["latin"],
-  display: "swap",
+  variable: "--font-roboto",     // để Tailwind dùng nếu cần
 });
 
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   return (
-    <html lang="en">
-      <body className={`${geistSans.className} ${geistMono.className} antialiased`}>
-        <EmotionProvider>{children}</EmotionProvider>
+    <html lang="en" className={roboto.className}>
+      <body
+        className={`${roboto.className} antialiased`}
+      >
+        <EmotionProvider>
+          {children}
+        </EmotionProvider>
       </body>
     </html>
   );
