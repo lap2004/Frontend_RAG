@@ -160,7 +160,7 @@ const Header = () => {
                       }
                     }}
                   >
-                    {loggedIn ? "Đăng Xuất" : "Đăng Nhập Cho Sinh Viên"}
+                    {loggedIn ? "Đăng Xuất" : "Đăng Nhập"}
                   </Button>
                 )}
               </motion.div>
