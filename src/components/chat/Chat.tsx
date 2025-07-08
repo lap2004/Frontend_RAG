@@ -43,21 +43,20 @@ export default function Chat() {
   const [inputText, setInputText] = useState("");
   const bottomRef = useRef<HTMLDivElement>(null);
 
-  /* ------------------ hooks call ------------------ */
+
   const { postChatStudent } = useChatStudent();
   const { postChatAdmin } = useChatAdmin();
 
-  /* ------------------ auto scroll ------------------ */
+
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [chatMessages]);
 
-  /* ------------------ send handler ------------------ */
+
   const handleSend = async () => {
     const trimmed = inputText.trim();
     if (!trimmed) return;
 
-    // đẩy tin nhắn user lên UI trước
     setChatMessages((prev) => [...prev, { text: trimmed, sender: "user" }]);
     setInputText("");
     setLoading(true);

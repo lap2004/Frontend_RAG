@@ -93,10 +93,9 @@ const Header = () => {
     { label: "Trang Chủ", href: user?.role === "admin" ? "/admin/dashboard" : "/user/home" },
     { label: "Liên Hệ", href: "#" },
 
-    loggedIn
-      ? { label: "Tuyển Sinh", href: "#" }
-      : { label: "Tư Vấn", href: "#" },
-
+    loggedIn //thay doi duong dan
+      ? { label: "Tư Vấn", href: "/tu-van" }  
+      : { label: "Tuyển Sinh", href: "/tu-van" }, 
   ];
 
   return (
@@ -105,7 +104,7 @@ const Header = () => {
         zIndex: 1,
         bgcolor: (theme) =>
           scrolled
-            ? alpha(theme.palette.grey[700], 0.75) // xám đậm, 75 % opacity
+            ? alpha(theme.palette.grey[700], 0.75)
             : "transparent",
         color: scrolled ? 'white' : 'black',
         backdropFilter: scrolled ? "blur(8px)" : "none",
@@ -118,6 +117,7 @@ const Header = () => {
               justifyContent: { xs: "space-between", md: "space-between" },
             }}
           >
+            
             {/* Logo */}
             <Link href="/" style={{ textDecoration: "none", color: "inherit" }}>
               <Image width={1000} height={1000} src="/logoVl.png" className="w-36" alt="logo" />
@@ -135,7 +135,7 @@ const Header = () => {
                       ":hover": { bgcolor: "#d62134", color: "white" },
                     }}
                   >
-                    <Link href={item.href} style={{ textDecoration: "none", color: "inherit" }}>
+                    <Link href={item.href} style={{ textDecoration: "none", color: "white" }}>
                       {item.label}
                     </Link>
                   </Button>
@@ -199,7 +199,7 @@ const Header = () => {
               onClick={() => setDrawerOpen(true)}
               sx={{ display: { xs: "block", md: "none" } }}
             >
-              <MenuIcon />
+              <MenuIcon sx={{color:"white"}} />
             </IconButton>
           </Toolbar>
         </Box>
